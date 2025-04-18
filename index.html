@@ -1,1 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universo Literário de [Seu Nome]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nes.css/2.3.0/css/nes.min.css">
+    <style>
+        :root {
+            --hologram-blue: rgba(0, 255, 255, 0.8);
+            --parchment: #f0e6d2;
+            --ink: #1a1a1a;
+            --magic-speed: 0.6s;
+        }
 
+        body {
+            background: radial-gradient(circle at center, #000428 0%, #004e92 100%);
+            color: var(--parchment);
+            overflow-x: hidden;
+        }
+
+        /* Efeito de portal holográfico */
+        .hologram-container {
+            position: relative;
+            height: 100vh;
+            perspective: 1000px;
+        }
+
+        .floating-books {
+            filter: drop-shadow(0 0 10px var(--hologram-blue));
+        }
+
+        /* Animação de tinta fluida */
+        .fluid-title {
+            position: relative;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><filter id="turbulence"><feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3"/><feDisplacementMap in="SourceGraphic" scale="10"/></filter><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" filter="url(%23turbulence)" fill="%2300ffff">[Seu Nome]</text></svg>');
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: inkFlow 5s infinite alternate;
+        }
+
+        @keyframes inkFlow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        /* Estante 3D interativa */
+        .bookshelf {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            transform-style: preserve-3d;
+        }
+
+        .book-card {
+            transition: transform var(--magic-speed);
+            cursor: pointer;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.3) 100%);
+            backdrop-filter: blur(10px);
+        }
+
+        .book-card:hover {
+            transform: rotateY(15deg) scale(1.05);
+        }
+
+        /* Efeito de página virando */
+        .page-flip {
+            transition: transform 1s;
+            transform-style: preserve-3d;
+        }
+
+        .page-flip.active {
+            transform: rotateY(-180deg);
+        }
+    </style>
+</head>
+<body>
+    <!-- Portal de Entrada -->
+    <section class="hologram-container">
+        <canvas id="bookVortex"></canvas>
+        <h1 class="fluid-title"></h1>
+        <div class="dynamic-subtitle"></div>
+    </section>
+
+    <!-- Galeria de Obras -->
+    <section class="bookshelf" id="library"></section>
+
+    <!-- Altar Criativo -->
+    <div class="creative-altar">
+        <div id="characterNetwork"></div>
+        <div class="timeline-slider"></div>
+    </div>
+
+    <!-- Sistema de Imersão -->
+    <audio id="ambientSound"></audio>
+    <div class="theme-controls"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.4.4/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+
+<script>
+    // Sistema de Livros Flutuantes
+    class BookVortex {
+        constructor() {
+            this.scene = new THREE.Scene();
+            this.camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+            this.renderer = new THREE.WebGLRenderer({ alpha: true });
+            this.books = [];
+            
+            this.init();
+        }
+
+        init() {
+            this.renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('bookVortex').appendChild(this.renderer.domElement);
+
+            // Gerar livros com física
+            for(let i = 0; i < 15; i++) {
+                const geometry = new THREE.BoxGeometry(2, 3, 0.5);
+                const material = new THREE.MeshPhongMaterial({ 
+                    color: Math.random() * 0xffffff,
+                    emissive: 0x0a0a3a
+                });
+                const book = new THREE.Mesh(geometry, material);
+                
+                book.position.set(
+                    Math.random() * 40 - 20,
+                    Math.random() * 40 - 20,
+                    Math.random() * 40 - 20
+                );
+                
+                this.books.push(book);
+                this.scene.add(book);
+            }
+
+            this.camera.position.z = 50;
+            this.animate();
+        }
+
+        animate() {
+            requestAnimationFrame(this.animate.bind(this));
+            this.books.forEach(book => {
+                book.rotation.x += 0.01;
+                book.rotation.y += 0.01;
+            });
+            this.renderer.render(this.scene, this.camera);
+        }
+    }
+
+    // Inicialização dos Sistemas
+    window.addEventListener('DOMContentLoaded', () => {
+        const vortex = new BookVortex();
+        initDynamicContent();
+    });
+
+    // Sistema de Conteúdo Dinâmico
+    function initDynamicContent() {
+        // Carregar dados dos livros
+        fetch('books.json')
+            .then(response => response.json())
+            .then(data => renderBooks(data));
+
+        // Configurar rede de personagens
+        const characterData = {
+            nodes: [...],
+            links: [...]
+        };
+
+        const simulation = d3.forceSimulation()
+            .force("link", d3.forceLink().id(d => d.id))
+            .force("charge", d3.forceManyBody())
+            .force("center", d3.forceCenter());
+    }
+
+    // Sistema de Temas
+    class LiteraryThemes {
+        constructor() {
+            this.themes = {
+                suspense: { colors: ['#2c061f', '#e04545'], sound: 'thunder.mp3' },
+                fantasy: { colors: ['#004d00', '#d4af37'], sound: 'forest.mp3' }
+            };
+        }
+
+        applyTheme(genre) {
+            const theme = this.themes[genre];
+            document.documentElement.style.setProperty('--hologram-blue', theme.colors[0]);
+            document.getElementById('ambientSound').src = theme.sound;
+        }
+    }
+</script>
+
+<!-- Efeitos Especiais Adicionais -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webgl-fluid/0.1.0/fluid.min.js"></script>
+<script>
+    // Inicializar Simulação de Fluido para o Título
+    fluid.init({
+        canvas: document.getElementById('fluidCanvas'),
+        IMMEDIATE: true,
+        DRAG_MULT: 0.02,
+        SPLAT_RADIUS: 0.25
+    });
+</script>
+</body>
+</html>
