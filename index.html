@@ -3,134 +3,639 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seu Nome - Escritor</title>
+    <title>Lukyam Morais Madeira - Mundos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Spectral:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* CORES */
-        :root {
-            --fundo-escuro: #1a1a1a;
-            --fundo-claro: #f5f5f5;
-            --texto-escuro: #333;
-            --texto-claro: #fff;
-            --destaque: #8B0000; /* Vermelho vinho */
-        }
-
+        /* Configurações Globais */
         body {
-            font-family: 'Georgia', serif;
-            background: var(--fundo-escuro);
-            color: var(--texto-claro);
-            transition: background 0.5s;
             margin: 0;
-            padding: 0;
+            overflow: hidden; /* Previne scroll na tela de escolha */
+            font-family: 'Poppins', sans-serif;
+            background-color: #111; /* Fundo escuro inicial */
+            color: #eee;
+             --dev-bg: #0f172a; /* Azul ardósia bem escuro */
+             --dev-text: #e2e8f0;
+             --dev-primary: #38bdf8; /* Azul céu claro */
+             --dev-secondary: #94a3b8;
+             --writer-bg: #f8f4f0; /* Bege/Papel claro */
+             --writer-text: #2d2d2d; /* Cinza escuro */
+             --writer-primary: #a0522d; /* Sienna (Marrom avermelhado) */
+             --writer-secondary: #6b7280;
+             --transition-speed: 0.8s;
         }
 
-        /* CABEÇALHO */
-        .hero {
+        /* Tela de Escolha */
+        #choice-screen {
+            display: flex;
+            width: 100vw;
             height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            transition: opacity var(--transition-speed) ease-out, transform var(--transition-speed) ease-out;
+        }
+        .choice-panel {
+            width: 50%;
+            height: 100%;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            justify-content: center;
             text-align: center;
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            border-right: 3px solid var(--destaque);
-            white-space: nowrap;
-            overflow: hidden;
-            animation: typing 3s steps(20), blink 0.5s step-end infinite;
-        }
-
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        @keyframes blink {
-            from, to { border-color: transparent }
-            50% { border-color: var(--destaque) }
-        }
-
-        /* LIVROS */
-        .livros {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            padding: 2rem;
-        }
-
-        .livro {
-            width: 200px;
-            height: 300px;
-            background: #333;
-            border-radius: 5px;
-            transition: transform 0.3s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-
-        .livro:hover {
-            transform: translateY(-10px) rotate(2deg);
-        }
-
-        /* BOTÃO DE TEMA */
-        .tema-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--destaque);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 50%;
             cursor: pointer;
-            font-size: 1.2rem;
+            transition: width var(--transition-speed) ease-in-out, background-color var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
         }
+        .choice-panel h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            z-index: 10;
+        }
+        .choice-panel p {
+             font-size: 1.1rem;
+             font-weight: 300;
+             max-width: 80%;
+             transition: transform 0.4s ease 0.1s, opacity 0.4s ease 0.1s;
+             z-index: 10;
+        }
+        #developer-choice {
+            background-color: var(--dev-bg);
+            color: var(--dev-text);
+        }
+        #writer-choice {
+            background-color: var(--writer-bg);
+            color: var(--writer-text);
+        }
+        /* Efeito Hover na Escolha */
+        #choice-screen:not(.chosen) #developer-choice:hover { width: 60%; }
+        #choice-screen:not(.chosen) #writer-choice:hover { width: 60%; }
+        #choice-screen:not(.chosen) #developer-choice:hover ~ #writer-choice { width: 40%; }
+        #choice-screen:not(.chosen) #writer-choice:hover ~ #developer-choice { width: 40%; }
+
+        /* Animação de Saída da Tela de Escolha */
+        #choice-screen.chosen {
+            opacity: 0;
+            pointer-events: none; /* Desabilita interação após escolha */
+        }
+        #choice-screen.chosen .choice-panel h2,
+        #choice-screen.chosen .choice-panel p {
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+
+        /* Conteúdo Principal (Inicialmente Oculto) */
+        .main-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow-y: auto; /* Permite scroll no conteúdo */
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity var(--transition-speed) ease-in-out calc(var(--transition-speed) / 2); /* Aparece após a escolha sumir */
+            z-index: 50;
+            padding-top: 80px; /* Espaço para header fixo */
+        }
+        .main-content.visible {
+            opacity: 1;
+        }
+
+        /* Estilos Específicos por Visão */
+        #developer-view { background-color: var(--dev-bg); color: var(--dev-text); }
+        #writer-view { background-color: var(--writer-bg); color: var(--writer-text); font-family: 'Spectral', serif; }
+
+        #developer-view h1, #developer-view h2, #developer-view h3 { font-family: 'Poppins', sans-serif; color: var(--dev-primary); }
+        #writer-view h1, #writer-view h2, #writer-view h3 { font-family: 'Spectral', serif; font-weight: 700; color: var(--writer-primary); }
+
+        #developer-view p, #developer-view li { color: var(--dev-secondary); font-family: 'Poppins', sans-serif; font-weight: 300; }
+        #writer-view p, #writer-view li { color: var(--writer-secondary); font-family: 'Spectral', serif; line-height: 1.9; } /* Maior line-height para escrita */
+
+        #developer-view a { color: var(--dev-primary); font-weight: 600; }
+        #writer-view a { color: var(--writer-primary); font-weight: 700; }
+        #developer-view a:hover { color: #fff; }
+        #writer-view a:hover { color: var(--writer-text); }
+
+        /* Header Fixo */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            z-index: 60;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: rgba(0,0,0,0.1); /* Fundo semi-transparente inicial */
+        }
+        .fixed-header.scrolled {
+             background-color: var(--header-bg, rgba(0,0,0,0.3)); /* Cor definida por JS */
+             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .fixed-header .logo {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--header-text, #eee); /* Cor definida por JS */
+        }
+        .switch-button {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #dev-header .switch-button { background-color: var(--writer-primary); color: var(--writer-bg); }
+        #writer-header .switch-button { background-color: var(--dev-primary); color: var(--dev-bg); }
+        #dev-header .switch-button:hover { background-color: var(--writer-text); }
+        #writer-header .switch-button:hover { background-color: var(--dev-text); }
+
+        /* Canvas para JS Art (Developer View) */
+        #developer-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Fica atrás do conteúdo */
+            opacity: 0.3; /* Menos intensidade */
+        }
+
+        /* Animação de "Escrita" (Fade + Slide) */
+        .fade-in-slide-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .main-content.visible .fade-in-slide-up {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Aplica delay escalonado para efeito de escrita */
+        .main-content.visible .fade-in-slide-up:nth-child(1) { transition-delay: 0.2s; }
+        .main-content.visible .fade-in-slide-up:nth-child(2) { transition-delay: 0.4s; }
+        .main-content.visible .fade-in-slide-up:nth-child(3) { transition-delay: 0.6s; }
+        .main-content.visible .fade-in-slide-up:nth-child(4) { transition-delay: 0.8s; }
+        /* Adicione mais se necessário */
+
+        /* Estilos de Seção Comum */
+        .content-section {
+             padding: 4rem 2rem;
+             max-width: 1000px;
+             margin: 0 auto; /* Centraliza */
+             min-height: 60vh; /* Garante algum espaço */
+        }
+        .content-section h2 {
+             margin-bottom: 3rem;
+             text-align: center;
+             font-size: 2.5rem;
+        }
+
+         /* Card simples */
+        .info-card {
+            background-color: rgba(255, 255, 255, 0.05); /* Leve transparência */
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #writer-view .info-card {
+            background-color: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+         .info-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+         .info-card p { font-size: 0.95rem; }
+
     </style>
 </head>
 <body>
-    <!-- BOTÃO DE TEMA CLARO/ESCURO -->
-    <button class="tema-btn">🌓</button>
 
-    <!-- CABEÇALHO -->
-    <section class="hero">
-        <h1>Seu Nome</h1>
-        <p>Escritor | Poeta | Contista</p>
-    </section>
+    <div id="choice-screen">
+        <div id="developer-choice" class="choice-panel" data-choice="developer">
+            <canvas id="developer-canvas-choice" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.2;"></canvas>
+            <h2 class="fade-in-slide-up">Desenvolvedor</h2>
+            <p class="fade-in-slide-up">Código, lógica e soluções digitais.</p>
+        </div>
+        <div id="writer-choice" class="choice-panel" data-choice="writer">
+             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.1; background-image: linear-gradient(rgba(160, 82, 45, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(160, 82, 45, 0.1) 1px, transparent 1px); background-size: 20px 20px;"></div>
+            <h2 class="fade-in-slide-up">Escritor</h2>
+            <p class="fade-in-slide-up">Histórias, ideias e a arte das palavras.</p>
+        </div>
+    </div>
 
-    <!-- SEÇÃO DE LIVROS -->
-    <section class="livros">
-        <div class="livro" style="background: url('capa1.jpg') center/cover;"></div>
-        <div class="livro" style="background: url('capa2.jpg') center/cover;"></div>
-        <div class="livro" style="background: url('capa3.jpg') center/cover;"></div>
-    </section>
+    <div id="developer-view" class="main-content">
+        <header id="dev-header" class="fixed-header">
+            <div class="logo">Lukyam Morais Madeira // Dev</div>
+            <button class="switch-button" data-switch-to="writer">Ver Lado Escritor</button>
+        </header>
+        <canvas id="developer-canvas"></canvas> <section class="content-section text-center">
+            <h1 class="text-5xl font-bold mb-10 fade-in-slide-up" style="color: var(--dev-text);">Construindo o Futuro, Linha por Linha</h1>
+            <p class="text-xl mb-10 fade-in-slide-up">Explorando o universo do desenvolvimento de software.</p>
+            <div class="fade-in-slide-up">
+                 <a href="#dev-projects" class="inline-block bg-dev-primary text-dev-bg px-6 py-3 rounded-full font-semibold mr-4 hover:bg-dev-text hover:text-dev-bg transition duration-300">Projetos</a>
+                 <a href="#dev-contact" class="inline-block border border-dev-primary text-dev-primary px-6 py-3 rounded-full font-semibold hover:bg-dev-primary hover:text-dev-bg transition duration-300">Contato</a>
+            </div>
+        </section>
+
+        <section id="dev-projects" class="content-section">
+            <h2 class="fade-in-slide-up">Projetos em Destaque</h2>
+            <div class="grid md:grid-cols-2 gap-6 fade-in-slide-up">
+                <div class="info-card">
+                    <h3 class="font-semibold">Nome Projeto 1</h3>
+                    <p class="text-sm mb-3">[Tecnologias: React, Node.js, etc]</p>
+                    <p>Descrição concisa do projeto e seu objetivo principal.</p>
+                    <div class="mt-4">
+                        <a href="#" target="_blank" class="mr-4 hover:underline">Demo <i class="fas fa-external-link-alt text-xs"></i></a>
+                        <a href="https://github.com/lukyammorais/repo1" target="_blank" class="hover:underline">GitHub <i class="fab fa-github text-xs"></i></a>
+                    </div>
+                </div>
+                 <div class="info-card">
+                    <h3 class="font-semibold">Nome Projeto 2</h3>
+                    <p class="text-sm mb-3">[Tecnologias: Python, API, etc]</p>
+                    <p>Descrição concisa do projeto e seu objetivo principal.</p>
+                     <div class="mt-4">
+                        <a href="#" target="_blank" class="mr-4 hover:underline">Demo <i class="fas fa-external-link-alt text-xs"></i></a>
+                        <a href="https://github.com/lukyammorais/repo2" target="_blank" class="hover:underline">GitHub <i class="fab fa-github text-xs"></i></a>
+                    </div>
+                </div>
+                </div>
+        </section>
+
+         <section id="dev-skills" class="content-section">
+             <h2 class="fade-in-slide-up">Habilidades Técnicas</h2>
+             <div class="text-center fade-in-slide-up">
+                 <p class="mb-6">Linguagens, frameworks e ferramentas que utilizo para criar:</p>
+                 <div class="flex flex-wrap justify-center gap-4 text-lg">
+                     <span class="bg-dev-primary/20 text-dev-primary px-4 py-1 rounded-full">JavaScript</span>
+                     <span class="bg-dev-primary/20 text-dev-primary px-4 py-1 rounded-full">React</span>
+                     <span class="bg-dev-primary/20 text-dev-primary px-4 py-1 rounded-full">Node.js</span>
+                     <span class="bg-dev-primary/20 text-dev-primary px-4 py-1 rounded-full">Python</span>
+                     <span class="bg-dev-primary/20 text-dev-primary px-4 py-1 rounded-full">HTML5</span>
+                     <span class="bg-dev-primary/20 text-dev-primary px-4 py-1 rounded-full">CSS3</span>
+                     <span class="bg-dev-primary/20 text-dev-primary px-4 py-1 rounded-full">Tailwind CSS</span>
+                     <span class="bg-dev-primary/20 text-dev-primary px-4 py-1 rounded-full">Git</span>
+                     {/* Adicione mais habilidades */}
+                 </div>
+             </div>
+         </section>
+
+        <section id="dev-contact" class="content-section text-center">
+             <h2 class="fade-in-slide-up">Conecte-se</h2>
+             <p class="mb-8 fade-in-slide-up">Vamos criar algo incrível juntos. Entre em contato!</p>
+             <div class="flex justify-center space-x-6 text-2xl fade-in-slide-up">
+                 <a href="mailto:lukyam.madeira@email.com" class="hover:text-white"><i class="fas fa-envelope"></i></a>
+                 <a href="https://linkedin.com/in/lukyammorais" target="_blank" class="hover:text-white"><i class="fab fa-linkedin"></i></a>
+                 <a href="https://github.com/lukyammorais" target="_blank" class="hover:text-white"><i class="fab fa-github"></i></a>
+             </div>
+        </section>
+         <footer class="text-center py-6 text-xs text-dev-secondary/50">
+             &copy; <span class="current-year"></span> Lukyam Morais Madeira - Mundo Dev
+         </footer>
+    </div>
+
+    <div id="writer-view" class="main-content">
+         <header id="writer-header" class="fixed-header">
+            <div class="logo">Lukyam Morais Madeira // Escritor</div>
+            <button class="switch-button" data-switch-to="developer">Ver Lado Dev</button>
+        </header>
+
+        <section class="content-section text-center">
+             <h1 class="text-5xl font-bold mb-10 fade-in-slide-up" style="color: var(--writer-text);">Tecendo Mundos com Palavras</h1>
+             <p class="text-xl mb-10 fade-in-slide-up">Explorando a arte da narrativa e da expressão.</p>
+             <div class="fade-in-slide-up">
+                 <a href="#writer-book" class="inline-block bg-writer-primary text-writer-bg px-6 py-3 rounded-full font-semibold mr-4 hover:bg-writer-text hover:text-writer-bg transition duration-300">O Livro</a>
+                 <a href="#writer-contact" class="inline-block border border-writer-primary text-writer-primary px-6 py-3 rounded-full font-semibold hover:bg-writer-primary hover:text-writer-bg transition duration-300">Contato</a>
+             </div>
+        </section>
+
+        <section id="writer-book" class="content-section">
+             <h2 class="fade-in-slide-up">O Visitante Espacial</h2>
+             <div class="text-center fade-in-slide-up">
+                 <i class="fas fa-book-open text-6xl text-writer-primary mb-6"></i>
+                 <p class="max-w-2xl mx-auto mb-6">[Insira aqui uma sinopse envolvente ou um trecho do seu livro 'O Visitante Espacial'. Fale sobre a jornada, os temas ou o que o leitor pode esperar.]</p>
+                 <a href="[Link para compra ou mais informações]" target="_blank" class="font-semibold hover:underline">Descubra a história completa &rarr;</a>
+             </div>
+        </section>
+
+        <section id="writer-articles" class="content-section">
+            <h2 class="fade-in-slide-up">Outros Escritos</h2>
+             <div class="grid md:grid-cols-2 gap-6 fade-in-slide-up">
+                <div class="info-card">
+                    <h3 class="font-semibold">Título do Artigo/Conto 1</h3>
+                    <p class="text-sm mb-3">[Publicado em: DD/MM/AAAA ou Plataforma]</p>
+                    <p>Breve descrição ou introdução do que trata este escrito.</p>
+                    <div class="mt-4">
+                        <a href="#" target="_blank" class="hover:underline">Ler Mais...</a>
+                    </div>
+                </div>
+                 <div class="info-card">
+                    <h3 class="font-semibold">Título do Artigo/Conto 2</h3>
+                    <p class="text-sm mb-3">[Publicado em: DD/MM/AAAA ou Plataforma]</p>
+                    <p>Breve descrição ou introdução do que trata este escrito.</p>
+                     <div class="mt-4">
+                        <a href="#" target="_blank" class="hover:underline">Ler Mais...</a>
+                    </div>
+                </div>
+                </div>
+        </section>
+
+         <section id="writer-contact" class="content-section text-center">
+             <h2 class="fade-in-slide-up">Conecte-se</h2>
+             <p class="mb-8 fade-in-slide-up">Adoraria conversar sobre escrita, livros ou novas ideias.</p>
+             <div class="flex justify-center space-x-6 text-2xl fade-in-slide-up">
+                 <a href="mailto:lukyam.madeira@email.com" class="hover:text-black"><i class="fas fa-envelope"></i></a>
+                 <a href="https://linkedin.com/in/lukyammorais" target="_blank" class="hover:text-black"><i class="fab fa-linkedin"></i></a>
+                 <a href="https://twitter.com/lukyammorais" target="_blank" class="hover:text-black"><i class="fab fa-twitter"></i></a>
+                 {/* Adicione outras redes relevantes para escrita */}
+             </div>
+        </section>
+         <footer class="text-center py-6 text-xs text-writer-secondary/70">
+             &copy; <span class="current-year"></span> Lukyam Morais Madeira - Mundo Escritor
+         </footer>
+    </div>
 
     <script>
-        // TEMA CLARO/ESCURO
-        const temaBtn = document.querySelector('.tema-btn');
-        temaBtn.addEventListener('click', () => {
-            document.body.style.backgroundColor = 
-                document.body.style.backgroundColor === 'rgb(245, 245, 245)' 
-                ? '#1a1a1a' : '#f5f5f5';
-            
-            document.body.style.color = 
-                document.body.style.color === 'rgb(51, 51, 51)' 
-                ? '#fff' : '#333';
+        const choiceScreen = document.getElementById('choice-screen');
+        const choicePanels = document.querySelectorAll('.choice-panel');
+        const developerView = document.getElementById('developer-view');
+        const writerView = document.getElementById('writer-view');
+        const switchButtons = document.querySelectorAll('.switch-button');
+        const fixedHeaders = document.querySelectorAll('.fixed-header');
+        const body = document.body;
+
+        let currentView = null; // Guarda a view atual ('developer' ou 'writer')
+
+        // --- Lógica da Tela de Escolha ---
+        choicePanels.forEach(panel => {
+            panel.addEventListener('click', () => {
+                const choice = panel.dataset.choice;
+                choiceScreen.classList.add('chosen'); // Inicia animação de saída da escolha
+
+                // Define qual view mostrar após a transição
+                setTimeout(() => {
+                    showView(choice);
+                }, (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--transition-speed') || '0.8') * 1000) / 2); // Metade do tempo da transição
+            });
         });
 
-        // EFEITO NOS LIVROS (OPCIONAL)
-        document.querySelectorAll('.livro').forEach(livro => {
-            livro.addEventListener('mousemove', (e) => {
-                const x = e.offsetX;
-                const y = e.offsetY;
-                livro.style.transform = `translateY(-10px) rotate(${x/50}deg)`;
-            });
-            
-            livro.addEventListener('mouseleave', () => {
-                livro.style.transform = 'translateY(0) rotate(0)';
-            });
+        // --- Lógica para Mostrar a View Escolhida ---
+        function showView(viewName) {
+            // Esconde todas as views primeiro (caso esteja trocando)
+            developerView.classList.remove('visible');
+            writerView.classList.remove('visible');
+            body.style.overflow = 'hidden'; // Previne scroll durante a troca
+
+            currentView = viewName;
+
+            if (viewName === 'developer') {
+                developerView.classList.add('visible');
+                body.style.backgroundColor = 'var(--dev-bg)'; // Ajusta fundo do body
+                initDeveloperArt(); // Inicia a arte JS
+                 setupHeaderScroll(developerView, document.getElementById('dev-header'), 'var(--dev-bg)', 'var(--dev-text)');
+            } else if (viewName === 'writer') {
+                writerView.classList.add('visible');
+                body.style.backgroundColor = 'var(--writer-bg)'; // Ajusta fundo do body
+                 setupHeaderScroll(writerView, document.getElementById('writer-header'), 'var(--writer-bg)', 'var(--writer-text)');
+            }
+
+             // Permite scroll na view ativa após um pequeno delay para a transição de opacidade
+             setTimeout(() => {
+                 body.style.overflow = 'auto';
+                 const activeViewElement = document.getElementById(`${viewName}-view`);
+                 if (activeViewElement) {
+                     activeViewElement.scrollTop = 0; // Garante que a view comece do topo
+                 }
+             }, parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--transition-speed') || '0.8') * 1000);
+        }
+
+         // --- Lógica para Trocar de View ---
+         switchButtons.forEach(button => {
+             button.addEventListener('click', () => {
+                 const targetView = button.dataset.switchTo;
+                 // Adiciona uma classe para efeito de fade out rápido (opcional)
+                 const currentViewElement = document.getElementById(`${currentView}-view`);
+                 if(currentViewElement) currentViewElement.style.opacity = 0;
+
+                 setTimeout(() => {
+                     showView(targetView);
+                 }, 300); // Pequeno delay para o fade out
+             });
+         });
+
+        // --- Lógica do Header Fixo com Scroll ---
+        function setupHeaderScroll(scrollContainer, headerElement, headerBgColor, headerTextColor) {
+            // Define as cores no CSS para referência
+             document.documentElement.style.setProperty('--header-bg', headerBgColor);
+             document.documentElement.style.setProperty('--header-text', headerTextColor);
+
+             // Reseta estado inicial
+             headerElement.classList.remove('scrolled');
+             headerElement.querySelector('.logo').style.color = headerTextColor; // Cor inicial do logo
+
+            scrollContainer.onscroll = () => {
+                if (scrollContainer.scrollTop > 50) {
+                    headerElement.classList.add('scrolled');
+                     headerElement.querySelector('.logo').style.color = headerTextColor; // Garante cor no scroll
+                } else {
+                    headerElement.classList.remove('scrolled');
+                     headerElement.querySelector('.logo').style.color = headerTextColor; // Garante cor no topo
+                }
+            };
+        }
+
+
+        // --- Arte JS para Developer View (Partículas Conectadas) ---
+        let animationFrameIdDev; // Para controlar a animação principal
+        let animationFrameIdChoice; // Para controlar a animação da tela de escolha
+
+        function initDeveloperArt() {
+            cancelAnimationFrame(animationFrameIdDev); // Cancela animação anterior se houver
+            const canvas = document.getElementById('developer-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            const numParticles = window.innerWidth < 768 ? 40 : 80; // Menos partículas em mobile
+            const connectDistance = 120;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight; // Ajusta para altura da janela (ou do container se preferir)
+                 // Recria partículas na redimensão para evitar distorções
+                 createParticles();
+            }
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 1;
+                    this.speedX = (Math.random() * 1 - 0.5) * 0.5; // Velocidade reduzida
+                    this.speedY = (Math.random() * 1 - 0.5) * 0.5;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    // Mantém dentro da tela (efeito de loop)
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                    if (this.y > canvas.height) this.y = 0;
+                }
+                draw() {
+                    ctx.fillStyle = 'rgba(56, 189, 248, 0.8)'; // Cor primária dev com alpha
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+             function createParticles() {
+                 particles = []; // Limpa array antes de recriar
+                 for (let i = 0; i < numParticles; i++) {
+                     particles.push(new Particle());
+                 }
+             }
+
+            function connectParticles() {
+                for (let a = 0; a < particles.length; a++) {
+                    for (let b = a + 1; b < particles.length; b++) {
+                        const dx = particles[a].x - particles[b].x;
+                        const dy = particles[a].y - particles[b].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < connectDistance) {
+                            const opacity = 1 - distance / connectDistance;
+                            ctx.strokeStyle = `rgba(56, 189, 248, ${opacity * 0.5})`; // Linhas mais sutis
+                            ctx.lineWidth = 0.5;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[a].x, particles[a].y);
+                            ctx.lineTo(particles[b].x, particles[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                connectParticles();
+                animationFrameIdDev = requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas(); // Chama na inicialização
+            animate();
+        }
+
+         // --- Arte JS para Tela de Escolha (Developer Panel Background) ---
+         function initDeveloperChoiceArt() {
+             cancelAnimationFrame(animationFrameIdChoice);
+             const canvasChoice = document.getElementById('developer-canvas-choice');
+             if (!canvasChoice) return;
+             const ctxChoice = canvasChoice.getContext('2d');
+             let particlesChoice = [];
+             const numParticlesChoice = 30;
+             const parentPanel = canvasChoice.parentElement; // Pega o painel pai
+
+             function resizeChoiceCanvas() {
+                 // Usa as dimensões do painel pai
+                 canvasChoice.width = parentPanel.offsetWidth;
+                 canvasChoice.height = parentPanel.offsetHeight;
+                 createChoiceParticles();
+             }
+
+             class ParticleChoice extends Particle { // Herda da classe Particle
+                 constructor() {
+                     super(); // Chama o construtor pai
+                     // Sobrescreve para usar dimensões do canvas de escolha
+                     this.x = Math.random() * canvasChoice.width;
+                     this.y = Math.random() * canvasChoice.height;
+                     this.speedX = (Math.random() * 0.6 - 0.3) * 0.3; // Ainda mais lento
+                     this.speedY = (Math.random() * 0.6 - 0.3) * 0.3;
+                 }
+                 // Sobrescreve update para usar limites do canvas de escolha
+                  update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x < 0 || this.x > canvasChoice.width) this.speedX *= -1; // Rebate nas bordas
+                    if (this.y < 0 || this.y > canvasChoice.height) this.speedY *= -1;
+                }
+                 draw() { // Usa contexto e cor diferente
+                     ctxChoice.fillStyle = 'rgba(56, 189, 248, 0.5)';
+                     ctxChoice.beginPath();
+                     ctxChoice.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                     ctxChoice.fill();
+                 }
+             }
+
+             function createChoiceParticles() {
+                 particlesChoice = [];
+                 for (let i = 0; i < numParticlesChoice; i++) {
+                     particlesChoice.push(new ParticleChoice());
+                 }
+             }
+
+             function animateChoice() {
+                 ctxChoice.clearRect(0, 0, canvasChoice.width, canvasChoice.height);
+                 particlesChoice.forEach(p => {
+                     p.update();
+                     p.draw();
+                 });
+                 // Sem conexão de partículas aqui para ser mais sutil
+                 animationFrameIdChoice = requestAnimationFrame(animateChoice);
+             }
+
+             // Observa redimensionamento do painel (mais robusto que 'resize' da janela)
+             const resizeObserver = new ResizeObserver(() => {
+                 resizeChoiceCanvas();
+             });
+             resizeObserver.observe(parentPanel);
+
+             resizeChoiceCanvas(); // Inicializa
+             animateChoice();
+         }
+
+
+        // --- Inicialização ---
+        document.addEventListener('DOMContentLoaded', () => {
+             // Atualiza ano no rodapé
+             document.querySelectorAll('.current-year').forEach(span => {
+                 span.textContent = new Date().getFullYear();
+             });
+             // Inicia a animação sutil no painel dev da tela de escolha
+             initDeveloperChoiceArt();
+
+             // Adiciona a classe para animar a entrada do texto da escolha inicial
+             setTimeout(() => {
+                 document.querySelectorAll('#choice-screen .fade-in-slide-up').forEach(el => {
+                     el.style.opacity = '1';
+                     el.style.transform = 'translateY(0)';
+                 });
+             }, 100); // Pequeno delay para garantir que a transição funcione
         });
+
+         // Limpa animações ao descarregar a página (boa prática)
+         window.addEventListener('beforeunload', () => {
+             cancelAnimationFrame(animationFrameIdDev);
+             cancelAnimationFrame(animationFrameIdChoice);
+         });
+
     </script>
 </body>
 </html>
