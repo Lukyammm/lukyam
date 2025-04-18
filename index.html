@@ -1,225 +1,136 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escritor de Alta Literatura</title>
+    <title>Seu Nome - Escritor</title>
     <style>
+        /* CORES */
         :root {
-            --primary-ink: #0a0a0a;
-            --golden-text: #FFD700;
-            --parchment: #F0EAD6;
-            --blood-red: #8B0000;
-            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --fundo-escuro: #1a1a1a;
+            --fundo-claro: #f5f5f5;
+            --texto-escuro: #333;
+            --texto-claro: #fff;
+            --destaque: #8B0000; /* Vermelho vinho */
         }
 
         body {
-            background: var(--primary-ink);
-            color: var(--parchment);
-            font-family: 'Literata', serif;
-            overflow-x: hidden;
+            font-family: 'Georgia', serif;
+            background: var(--fundo-escuro);
+            color: var(--texto-claro);
+            transition: background 0.5s;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Efeito de Partículas de Tinta */
-        .ink-particle {
-            position: fixed;
-            pointer-events: none;
-            background: var(--blood-red);
-            border-radius: 50%;
-            opacity: 0.3;
-        }
-
-        /* Header Cinematográfico */
+        /* CABEÇALHO */
         .hero {
             height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: relative;
-            overflow: hidden;
+            text-align: center;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, var(--primary-ink), #1a1a1a 50%, var(--primary-ink));
-            animation: grain 8s steps(10) infinite;
-            opacity: 0.3;
-            pointer-events: none;
-        }
-
-        @keyframes grain {
-            0%, 100% { transform: translate(0,0) }
-            10% { transform: translate(-5%,-10%) }
-            30% { transform: translate(3%,-15%) }
-            50% { transform: translate(12%,9%) }
-            70% { transform: translate(9%,4%) }
-            90% { transform: translate(-1%,7%) }
-        }
-
-        .author-name {
-            font-size: 5rem;
-            font-family: 'Cormorant Garamond', serif;
-            background: linear-gradient(45deg, var(--parchment), var(--golden-text));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 50px rgba(255,215,0,0.3);
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Efeito Máquina de Escrever */
-        .typing-effect {
-            position: absolute;
-            bottom: 20%;
-            font-size: 1.5rem;
-            border-right: 2px solid var(--golden-text);
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            border-right: 3px solid var(--destaque);
             white-space: nowrap;
             overflow: hidden;
-            animation: typing 3s steps(40), blink-caret 0.75s step-end infinite;
+            animation: typing 3s steps(20), blink 0.5s step-end infinite;
         }
 
         @keyframes typing {
             from { width: 0 }
-            to { width: 24ch }
+            to { width: 100% }
         }
 
-        @keyframes blink-caret {
+        @keyframes blink {
             from, to { border-color: transparent }
-            50% { border-color: var(--golden-text) }
+            50% { border-color: var(--destaque) }
         }
 
-        /* Seção de Livros 3D */
-        .book-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 4rem;
-            padding: 4rem;
-            perspective: 2000px;
+        /* LIVROS */
+        .livros {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 2rem;
         }
 
-        .book-card {
-            transform-style: preserve-3d;
-            transition: var(--transition);
-            position: relative;
-            cursor: pointer;
+        .livro {
+            width: 200px;
+            height: 300px;
+            background: #333;
+            border-radius: 5px;
+            transition: transform 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
-        .book-card:hover {
-            transform: rotateY(25deg) rotateX(10deg) translateZ(50px);
+        .livro:hover {
+            transform: translateY(-10px) rotate(2deg);
         }
 
-        .book-card::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent 0%, rgba(0,0,0,0.8) 100%);
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .book-card:hover::before {
-            opacity: 1;
-        }
-
-        /* Sistema de Temas */
-        [data-theme="light"] {
-            --primary-ink: #F0EAD6;
-            --parchment: #0a0a0a;
-            --blood-red: #8B0000;
-        }
-
-        .theme-toggle {
+        /* BOTÃO DE TEMA */
+        .tema-btn {
             position: fixed;
-            top: 2rem;
-            right: 2rem;
+            top: 20px;
+            right: 20px;
+            background: var(--destaque);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
             cursor: pointer;
-            z-index: 1000;
+            font-size: 1.2rem;
         }
     </style>
 </head>
 <body>
-    <div class="theme-toggle">🌓</div>
-    
+    <!-- BOTÃO DE TEMA CLARO/ESCURO -->
+    <button class="tema-btn">🌓</button>
+
+    <!-- CABEÇALHO -->
     <section class="hero">
-        <h1 class="author-name">Nome do Escritor</h1>
-        <div class="typing-effect">"As palavras são a matéria-prima da alma humana"</div>
+        <h1>Seu Nome</h1>
+        <p>Escritor | Poeta | Contista</p>
     </section>
 
-    <section class="book-grid">
-        <div class="book-card">
-            <img src="capa-livro1.jpg" alt="Obra 1" class="book-cover">
-            <div class="book-info">
-                <h3>Obra Prima</h3>
-                <p>Prêmio Literário 2023</p>
-            </div>
-        </div>
-        <!-- Adicione mais livros -->
+    <!-- SEÇÃO DE LIVROS -->
+    <section class="livros">
+        <div class="livro" style="background: url('capa1.jpg') center/cover;"></div>
+        <div class="livro" style="background: url('capa2.jpg') center/cover;"></div>
+        <div class="livro" style="background: url('capa3.jpg') center/cover;"></div>
     </section>
 
     <script>
-        // Sistema de Partículas de Tinta
-        function createInkParticles(e) {
-            const particles = document.createElement('div');
-            particles.className = 'ink-particle';
+        // TEMA CLARO/ESCURO
+        const temaBtn = document.querySelector('.tema-btn');
+        temaBtn.addEventListener('click', () => {
+            document.body.style.backgroundColor = 
+                document.body.style.backgroundColor === 'rgb(245, 245, 245)' 
+                ? '#1a1a1a' : '#f5f5f5';
             
-            const size = Math.random() * 20 + 5;
-            particles.style.width = `${size}px`;
-            particles.style.height = `${size}px`;
-            particles.style.left = `${e.clientX}px`;
-            particles.style.top = `${e.clientY}px`;
-            
-            document.body.appendChild(particles);
-            
-            setTimeout(() => {
-                particles.remove();
-            }, 2000);
-        }
-
-        // Sistema de Tema
-        document.querySelector('.theme-toggle').addEventListener('click', () => {
-            document.documentElement.setAttribute('data-theme', 
-                document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
-            );
+            document.body.style.color = 
+                document.body.style.color === 'rgb(51, 51, 51)' 
+                ? '#fff' : '#333';
         });
 
-        // Efeito Parallax
-        document.addEventListener('mousemove', (e) => {
-            const x = (window.innerWidth - e.pageX * 2) / 90;
-            const y = (window.innerHeight - e.pageY * 2) / 90;
-            document.querySelector('.hero').style.transform = `translate(${x}px, ${y}px)`;
-            
-            createInkParticles(e);
-        });
-
-        // Animação de Livros
-        document.querySelectorAll('.book-card').forEach(book => {
-            book.addEventListener('mousemove', (e) => {
+        // EFEITO NOS LIVROS (OPCIONAL)
+        document.querySelectorAll('.livro').forEach(livro => {
+            livro.addEventListener('mousemove', (e) => {
                 const x = e.offsetX;
                 const y = e.offsetY;
-                const rotateY = (-1/5 * x + 20);
-                const rotateX = (4/30 * y - 20);
-                
-                book.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                livro.style.transform = `translateY(-10px) rotate(${x/50}deg)`;
             });
             
-            book.addEventListener('mouseleave', () => {
-                book.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+            livro.addEventListener('mouseleave', () => {
+                livro.style.transform = 'translateY(0) rotate(0)';
             });
         });
     </script>
-
-    <!-- Inclua estas bibliotecas no <head> -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Literata:opsz@7..72&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </body>
 </html>
