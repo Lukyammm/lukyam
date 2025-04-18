@@ -3,36 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lukyam Morais Madeira</title>
+    <title>Lukyam Morais Madeira | Dev & Escritor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Estilos Base */
+        /* Sistema de Design Avançado */
         :root {
-            --dev-primary: #6C4DED;
-            --dev-secondary: #4DEDC3;
-            --dev-accent: #ED6C4D;
-            --writer-primary: #4DEDC3;
-            --writer-secondary: #ED6C4D;
-            --writer-accent: #6C4DED;
-            --dark: #1A1A2E;
-            --light: #F5F5F7;
-            --transition: all 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+            /* Cores Dev */
+            --dev-primary: #5E35B1;
+            --dev-secondary: #39DBFF;
+            --dev-accent: #FF6D00;
+            --dev-dark: #0F0C24;
+            --dev-darker: #070518;
+            --dev-light: #E8F4F8;
+            
+            /* Cores Writer */
+            --writer-primary: #00BFA5;
+            --writer-secondary: #FF6D00;
+            --writer-accent: #7C4DFF;
+            --writer-dark: #1A2E35;
+            --writer-darker: #0A191E;
+            --writer-light: #F1F8E9;
+            
+            /* Neutras */
+            --pure-white: #FFFFFF;
+            --pure-black: #000000;
+            
+            /* Efeitos */
+            --glass-light: rgba(255, 255, 255, 0.1);
+            --glass-dark: rgba(0, 0, 0, 0.2);
+            --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-bounce: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.16);
+            --text-gradient: linear-gradient(135deg, var(--dev-primary), var(--dev-secondary));
         }
 
+        /* Reset e Tipografia */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            background-color: var(--dark);
-            color: var(--light);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            overscroll-behavior-y: none;
             overflow-x: hidden;
         }
 
-        /* Página Inicial */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Componentes Reutilizáveis */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, currentColor, transparent);
+            opacity: 0;
+            transition: var(--transition-smooth);
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            opacity: 0.2;
+        }
+
+        .btn-primary {
+            background: var(--dev-primary);
+            color: var(--pure-white);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--pure-white);
+            border: 2px solid var(--dev-secondary);
+        }
+
+        .btn-writer {
+            background: transparent;
+            color: var(--pure-white);
+            border: 2px solid var(--writer-primary);
+        }
+
+        .btn-writer:hover {
+            background: var(--writer-primary);
+            color: var(--writer-dark);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: currentColor;
+            border-radius: 2px;
+        }
+
+        .glass-card {
+            background: var(--glass-light);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid var(--glass-dark);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-smooth);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Página Gateway */
         .gateway {
             min-height: 100vh;
             display: flex;
@@ -43,20 +167,43 @@
             padding: 2rem;
             position: relative;
             overflow: hidden;
+            background: var(--dev-darker);
+            color: var(--dev-light);
+        }
+
+        .gateway::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 70% 30%, var(--dev-primary) 0%, transparent 30%),
+                radial-gradient(circle at 30% 70%, var(--dev-secondary) 0%, transparent 30%);
+            opacity: 0.15;
+            animation: rotate-gradient 30s linear infinite;
+            z-index: 0;
+        }
+
+        .gateway-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
         }
 
         .gateway h1 {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--dev-primary), var(--writer-primary));
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--dev-primary), var(--dev-secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            line-height: 1.1;
         }
 
         .gateway p {
-            font-size: 1.2rem;
-            max-width: 600px;
+            font-size: 1.25rem;
             margin-bottom: 3rem;
             opacity: 0.9;
         }
@@ -64,76 +211,22 @@
         .gateway-buttons {
             display: flex;
             gap: 1.5rem;
+            justify-content: center;
         }
 
         .gateway-btn {
-            padding: 1.2rem 2.5rem;
-            border-radius: 50px;
+            padding: 1.25rem 2.5rem;
             font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            border: none;
+            min-width: 200px;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 1;
-        }
-
-        .gateway-btn.dev {
-            background: var(--dev-primary);
-            color: white;
-        }
-
-        .gateway-btn.writer {
-            background: transparent;
-            color: var(--light);
-            border: 2px solid var(--writer-primary);
-        }
-
-        .gateway-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 100%;
-            transition: var(--transition);
-            z-index: -1;
-        }
-
-        .gateway-btn.dev::before {
-            background: linear-gradient(90deg, var(--dev-primary), #8A2BE2));
-        }
-
-        .gateway-btn.writer::before {
-            background: linear-gradient(90deg, var(--writer-primary), #20B2AA));
-        }
-
-        .gateway-btn:hover::before {
-            width: 100%;
-        }
-
-        .gateway-btn.writer:hover {
-            border-color: transparent;
-        }
-
-        .gateway-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .gateway-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.05;
-            background-image: 
-                radial-gradient(circle at 30% 30%, var(--dev-primary) 1px, transparent 1px),
-                radial-gradient(circle at 70% 70%, var(--writer-primary) 1px, transparent 1px);
-            background-size: 40px 40px;
         }
 
         /* Landing Page - Dev */
@@ -143,109 +236,120 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--dark);
+            background: var(--dev-dark);
+            color: var(--dev-light);
             z-index: 100;
             transform: translateY(100%);
             transition: transform 1s cubic-bezier(0.86, 0, 0.07, 1);
             overflow-y: auto;
-            padding: 2rem;
+            opacity: 0;
         }
 
         .dev-landing.active {
             transform: translateY(0);
+            opacity: 1;
         }
 
         .dev-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 3rem;
+            padding: 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(15, 12, 36, 0.8);
+            backdrop-filter: blur(10px);
         }
 
         .dev-logo {
             font-size: 1.8rem;
             font-weight: 700;
-            color: var(--dev-primary);
+            color: var(--dev-secondary);
         }
 
-        .dev-back {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        .dev-nav {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: var(--transition);
+            gap: 2rem;
         }
 
-        .dev-back:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateX(-5px);
+        .dev-nav a {
+            position: relative;
+            padding: 0.5rem 0;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .dev-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--dev-secondary);
+            transition: var(--transition-smooth);
+        }
+
+        .dev-nav a:hover::after {
+            width: 100%;
         }
 
         .dev-hero {
-            max-width: 1200px;
-            margin: 0 auto 5rem;
-            display: flex;
+            padding: 8rem 2rem 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
             align-items: center;
-            gap: 3rem;
         }
 
-        .dev-hero-text {
-            flex: 1;
-        }
-
-        .dev-hero h1 {
+        .dev-hero-content h1 {
             font-size: 3.5rem;
             margin-bottom: 1.5rem;
-            background: linear-gradient(90deg, var(--dev-primary), var(--dev-secondary));
+            background: linear-gradient(135deg, var(--dev-primary), var(--dev-secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
 
-        .dev-hero p {
-            font-size: 1.2rem;
+        .dev-hero-content p {
+            font-size: 1.25rem;
             margin-bottom: 2rem;
-            line-height: 1.6;
             opacity: 0.9;
         }
 
-        .dev-cta {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: var(--dev-primary);
-            color: white;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-        }
-
-        .dev-cta:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(108, 77, 237, 0.3);
+        .dev-hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         .dev-hero-image {
-            flex: 1;
             position: relative;
-            height: 400px;
+            height: 500px;
+            perspective: 1000px;
         }
 
-        .code-window {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 1.5rem;
+        .code-terminal {
+            position: absolute;
+            width: 100%;
             height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(5px);
+            padding: 1.5rem;
             overflow: hidden;
+            transform-style: preserve-3d;
+            transform: rotateY(15deg) rotateX(5deg);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            transition: var(--transition-smooth);
+        }
+
+        .code-terminal:hover {
+            transform: rotateY(5deg) rotateX(2deg) translateY(-10px);
         }
 
         .code-header {
@@ -273,18 +377,16 @@
         }
 
         .code-content {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 5px;
-            padding: 1rem;
-            font-family: 'Courier New', monospace;
+            font-family: 'Fira Code', monospace;
             font-size: 0.9rem;
-            line-height: 1.6;
+            line-height: 1.8;
             height: calc(100% - 40px);
             overflow: auto;
         }
 
         .code-line {
             margin-bottom: 0.5rem;
+            white-space: pre-wrap;
         }
 
         .code-keyword {
@@ -299,51 +401,220 @@
             color: var(--dev-accent);
         }
 
-        .dev-skills {
-            max-width: 1200px;
-            margin: 0 auto 5rem;
+        .code-comment {
+            color: #6A7280;
+            font-style: italic;
         }
 
-        .dev-skills h2 {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            color: var(--dev-secondary);
+        .dev-skills {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
         .skill-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 1.5rem;
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 16px;
+            transition: var(--transition-smooth);
         }
 
         .skill-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: rgba(94, 53, 177, 0.1);
+            border-color: rgba(94, 53, 177, 0.3);
         }
 
         .skill-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--dev-primary);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dev-secondary);
         }
 
         .skill-card h3 {
-            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .skill-card p {
             opacity: 0.8;
-            font-size: 0.9rem;
-            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: rgba(57, 219, 255, 0.1);
+            color: var(--dev-secondary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .dev-projects {
+            padding: 6rem 2rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            height: 300px;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-smooth);
+        }
+
+        .project-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            transform: translateY(100%);
+            transition: var(--transition-smooth);
+        }
+
+        .project-card:hover .project-overlay {
+            transform: translateY(0);
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .project-link:hover {
+            color: var(--dev-secondary);
+        }
+
+        .dev-contact {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--pure-white);
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--dev-secondary);
+            background: rgba(57, 219, 255, 0.05);
+        }
+
+        .form-label {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            transition: var(--transition-smooth);
+            pointer-events: none;
+        }
+
+        .form-input:focus + .form-label,
+        .form-input:not(:placeholder-shown) + .form-label {
+            top: -0.5rem;
+            left: 0.8rem;
+            font-size: 0.8rem;
+            background: var(--dev-dark);
+            padding: 0 0.5rem;
+            color: var(--dev-secondary);
+        }
+
+        textarea.form-input {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .dev-footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            transition: var(--transition-smooth);
+        }
+
+        .social-link:hover {
+            background: var(--dev-primary);
+            transform: translateY(-5px);
         }
 
         /* Landing Page - Writer */
@@ -353,23 +624,30 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #0F2027, #203A43, #2C5364);
+            background: var(--writer-dark);
+            color: var(--writer-light);
             z-index: 100;
             transform: translateY(100%);
             transition: transform 1s cubic-bezier(0.86, 0, 0.07, 1);
             overflow-y: auto;
-            padding: 2rem;
+            opacity: 0;
         }
 
         .writer-landing.active {
             transform: translateY(0);
+            opacity: 1;
         }
 
         .writer-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 3rem;
+            padding: 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(26, 46, 53, 0.8);
+            backdrop-filter: blur(10px);
         }
 
         .writer-logo {
@@ -378,97 +656,104 @@
             color: var(--writer-primary);
         }
 
-        .writer-back {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        .writer-nav {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: var(--transition);
+            gap: 2rem;
         }
 
-        .writer-back:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateX(-5px);
+        .writer-nav a {
+            position: relative;
+            padding: 0.5rem 0;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .writer-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--writer-primary);
+            transition: var(--transition-smooth);
+        }
+
+        .writer-nav a:hover::after {
+            width: 100%;
         }
 
         .writer-hero {
-            max-width: 1200px;
-            margin: 0 auto 5rem;
-            display: flex;
+            padding: 8rem 2rem 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
             align-items: center;
-            gap: 3rem;
         }
 
-        .writer-hero-text {
-            flex: 1;
-        }
-
-        .writer-hero h1 {
+        .writer-hero-content h1 {
             font-size: 3.5rem;
             margin-bottom: 1.5rem;
-            background: linear-gradient(90deg, var(--writer-primary), var(--writer-accent));
+            background: linear-gradient(135deg, var(--writer-primary), var(--writer-accent));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
 
-        .writer-hero p {
-            font-size: 1.2rem;
+        .writer-hero-content p {
+            font-size: 1.25rem;
             margin-bottom: 2rem;
-            line-height: 1.6;
             opacity: 0.9;
         }
 
-        .writer-cta {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: transparent;
-            color: var(--writer-primary);
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition);
-            border: 2px solid var(--writer-primary);
-            cursor: pointer;
-        }
-
-        .writer-cta:hover {
-            background: var(--writer-primary);
-            color: var(--dark);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(77, 237, 195, 0.3);
+        .writer-hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         .writer-hero-image {
-            flex: 1;
             position: relative;
-            height: 400px;
+            height: 500px;
+            perspective: 1000px;
         }
 
-        .book-pile {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 2rem;
+        .book-display {
+            position: absolute;
+            width: 100%;
             height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(5px);
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transform: rotateY(-15deg) rotateX(5deg);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            transition: var(--transition-smooth);
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
         }
 
-        .book {
-            position: absolute;
-            width: 60%;
+        .book-display:hover {
+            transform: rotateY(-5deg) rotateX(2deg) translateY(-10px);
+        }
+
+        .book-stack {
+            position: relative;
+            width: 70%;
             height: 80%;
+        }
+
+        .book-item {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(45deg, var(--writer-primary), var(--writer-accent));
-            border-radius: 5px 10px 10px 5px;
+            border-radius: 8px 12px 12px 8px;
             box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.3);
             transform-origin: left center;
             display: flex;
@@ -477,7 +762,7 @@
             color: white;
             font-size: 2rem;
             font-weight: bold;
-            transition: var(--transition);
+            transition: var(--transition-bounce);
         }
 
         .book-1 {
@@ -489,135 +774,220 @@
             transform: rotate(-10deg) translateY(10px);
             z-index: 2;
             opacity: 0.8;
-            background: linear-gradient(45deg, var(--writer-accent), #8A2BE2));
+            background: linear-gradient(45deg, var(--writer-accent), #8A2BE2);
         }
 
         .book-3 {
             transform: rotate(-15deg) translateY(20px);
             z-index: 1;
             opacity: 0.6;
-            background: linear-gradient(45deg, #8A2BE2, #4DEDC3));
+            background: linear-gradient(45deg, #8A2BE2, var(--writer-primary));
         }
 
         .writer-works {
-            max-width: 1200px;
-            margin: 0 auto 5rem;
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .writer-works h2 {
-            font-size: 2rem;
+        .works-filter {
+            display: flex;
+            gap: 1rem;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--writer-primary);
             color: var(--writer-primary);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--writer-primary);
+            color: var(--writer-dark);
         }
 
         .works-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
         }
 
         .work-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .work-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: var(--transition-smooth);
+        }
+
+        .work-content {
             padding: 1.5rem;
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .work-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--writer-accent);
+            color: var(--pure-white);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .work-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .work-excerpt {
+            opacity: 0.8;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .work-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--writer-primary);
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .work-link:hover {
+            gap: 1rem;
+            color: var(--pure-white);
         }
 
         .work-card:hover {
             transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
-        .work-image {
-            height: 200px;
-            background: linear-gradient(45deg, var(--writer-primary), var(--writer-accent));
-            border-radius: 5px;
-            margin-bottom: 1rem;
-            display: flex;
-            justify-content: center;
+        .work-card:hover .work-image {
+            transform: scale(1.05);
+        }
+
+        .writer-about {
+            padding: 6rem 2rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .about-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
             align-items: center;
-            color: white;
-            font-size: 2rem;
-            font-weight: bold;
         }
 
-        .work-card h3 {
-            margin-bottom: 0.5rem;
+        .about-image {
+            position: relative;
+            height: 500px;
+            border-radius: 16px;
+            overflow: hidden;
         }
 
-        .work-card p {
-            opacity: 0.8;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        .work-link {
-            color: var(--writer-primary);
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: var(--transition);
-        }
-
-        .work-link:hover {
-            color: white;
-            gap: 1rem;
-        }
-
-        /* Efeitos Especiais */
-        .floating-elements {
-            position: absolute;
+        .about-image img {
             width: 100%;
             height: 100%;
-            top: 0;
-            left: 0;
-            overflow: hidden;
-            z-index: -1;
+            object-fit: cover;
         }
 
-        .floating-element {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            opacity: 0.2;
-            animation: float 15s infinite ease-in-out;
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--writer-primary);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .writer-contact {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .writer-footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Animações */
+        @keyframes rotate-gradient {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         @keyframes float {
             0%, 100% {
-                transform: translate(0, 0);
-            }
-            25% {
-                transform: translate(50px, 50px);
+                transform: translateY(0);
             }
             50% {
-                transform: translate(0, 100px);
-            }
-            75% {
-                transform: translate(-50px, 50px);
+                transform: translateY(-20px);
             }
         }
 
-        /* Responsivo */
-        @media (max-width: 1024px) {
-            .dev-hero, .writer-hero {
-                flex-direction: column;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsividade */
+        @media (max-width: 1200px) {
+            .dev-hero, .writer-hero, .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
             }
             
-            .dev-hero-image, .writer-hero-image {
-                width: 100%;
-                margin-top: 2rem;
+            .dev-hero-image, .writer-hero-image, .about-image {
+                order: -1;
+                height: 400px;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+            
+            .section-title {
+                font-size: 2rem;
             }
         }
 
         @media (max-width: 768px) {
             .gateway h1 {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
             
             .gateway-buttons {
@@ -629,11 +999,37 @@
                 width: 100%;
             }
             
-            .dev-hero h1, .writer-hero h1 {
+            .dev-hero-content h1, .writer-hero-content h1 {
                 font-size: 2.5rem;
             }
             
-            .skills-grid, .works-grid {
+            .projects-grid, .works-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dev-nav, .writer-nav {
+                display: none;
+            }
+            
+            .dev-hero-buttons, .writer-hero-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gateway h1 {
+                font-size: 2.5rem;
+            }
+            
+            .dev-hero-content h1, .writer-hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .skills-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -642,150 +1038,465 @@
 <body>
     <!-- Página Inicial -->
     <section class="gateway" id="gateway">
-        <div class="floating-elements">
-            <div class="floating-element" style="width: 300px; height: 300px; background: var(--dev-primary); top: 20%; left: 10%; animation-duration: 18s;"></div>
-            <div class="floating-element" style="width: 400px; height: 400px; background: var(--writer-primary); bottom: 20%; right: 10%; animation-duration: 20s; animation-direction: reverse;"></div>
-        </div>
-        
-        <div class="gateway-bg"></div>
-        
-        <h1>Lukyam Morais Madeira</h1>
-        <p>Desenvolvedor criativo e escritor apaixonado. Escolha qual lado deseja explorar:</p>
-        
-        <div class="gateway-buttons">
-            <button class="gateway-btn dev" id="devBtn">
-                <i class="fas fa-code"></i> Lukyam Dev
-            </button>
-            <button class="gateway-btn writer" id="writerBtn">
-                <i class="fas fa-pen-fancy"></i> Lukyam Escritor
-            </button>
+        <div class="particles" id="particles-js"></div>
+        <div class="gateway-content">
+            <h1>Lukyam Morais Madeira</h1>
+            <p>Desenvolvedor full-stack e escritor criativo. Transformo ideias em realidade através de código e palavras.</p>
+            <div class="gateway-buttons">
+                <button class="btn btn-primary gateway-btn" id="devBtn">
+                    <i class="fas fa-code"></i> Explorar Perfil Dev
+                </button>
+                <button class="btn btn-writer gateway-btn" id="writerBtn">
+                    <i class="fas fa-pen-fancy"></i> Explorar Perfil Escritor
+                </button>
+            </div>
         </div>
     </section>
 
     <!-- Landing Page - Dev -->
     <section class="dev-landing" id="devLanding">
-        <div class="floating-elements">
-            <div class="floating-element" style="width: 200px; height: 200px; background: var(--dev-primary); top: 30%; left: 20%; animation-duration: 15s;"></div>
-            <div class="floating-element" style="width: 300px; height: 300px; background: var(--dev-secondary); bottom: 20%; right: 15%; animation-duration: 18s; animation-direction: reverse;"></div>
-        </div>
-        
         <header class="dev-header">
-            <div class="dev-logo">Lukyam Dev</div>
-            <button class="dev-back" id="devBack">
-                <i class="fas fa-arrow-left"></i>
+            <div class="dev-logo">Lukyam_Dev</div>
+            <nav class="dev-nav">
+                <a href="#skills">Habilidades</a>
+                <a href="#projects">Projetos</a>
+                <a href="#contact">Contato</a>
+            </nav>
+            <button class="btn btn-secondary" id="devBack">
+                <i class="fas fa-arrow-left"></i> Voltar
             </button>
         </header>
         
         <main>
             <section class="dev-hero">
-                <div class="dev-hero-text">
+                <div class="dev-hero-content">
                     <h1>Desenvolvimento Criativo & Soluções Inovadoras</h1>
                     <p>Transformo ideias em realidade digital com código limpo, arquitetura escalável e atenção aos detalhes. Especializado em criar experiências web modernas e performáticas.</p>
-                    <button class="dev-cta">Vamos Conversar</button>
+                    <div class="dev-hero-buttons">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Contrate-me
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-file-alt"></i> Ver Currículo
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="dev-hero-image">
-                    <div class="code-window">
+                    <div class="code-terminal glass-card">
                         <div class="code-header">
                             <div class="code-dot dot-red"></div>
                             <div class="code-dot dot-yellow"></div>
                             <div class="code-dot dot-green"></div>
                         </div>
                         <div class="code-content" id="codeContent">
-                            <!-- O código será inserido via JavaScript -->
+                            <!-- Código será inserido via JS -->
                         </div>
                     </div>
                 </div>
             </section>
             
-            <section class="dev-skills">
-                <h2>Habilidades & Tecnologias</h2>
+            <section class="dev-skills" id="skills">
+                <h2 class="section-title">Minhas Habilidades</h2>
                 <div class="skills-grid">
-                    <div class="skill-card">
-                        <div class="skill-icon"><i class="fab fa-js"></i></div>
+                    <div class="skill-card glass-card">
+                        <div class="skill-icon">
+                            <i class="fab fa-js"></i>
+                        </div>
                         <h3>JavaScript Moderno</h3>
-                        <p>ES6+, TypeScript, padrões de projeto e arquitetura de aplicações complexas.</p>
+                        <p>Desenvolvimento com ES6+, TypeScript, padrões de projeto e arquitetura de aplicações complexas.</p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">ES6+</span>
+                            <span class="skill-tag">TypeScript</span>
+                            <span class="skill-tag">Functional</span>
+                        </div>
                     </div>
                     
-                    <div class="skill-card">
-                        <div class="skill-icon"><i class="fab fa-react"></i></div>
-                        <h3>React Ecosystem</h3>
-                        <p>React, Next.js, Redux, Context API e desenvolvimento de componentes reutilizáveis.</p>
+                    <div class="skill-card glass-card">
+                        <div class="skill-icon">
+                            <i class="fab fa-react"></i>
+                        </div>
+                        <h3>Frontend Avançado</h3>
+                        <p>React, Next.js, Redux, Context API e desenvolvimento de componentes reutilizáveis e performáticos.</p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Next.js</span>
+                            <span class="skill-tag">Redux</span>
+                        </div>
                     </div>
                     
-                    <div class="skill-card">
-                        <div class="skill-icon"><i class="fas fa-server"></i></div>
-                        <h3>Backend Development</h3>
-                        <p>Node.js, Express, APIs REST/GraphQL, autenticação e bancos de dados relacionais.</p>
+                    <div class="skill-card glass-card">
+                        <div class="skill-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3>Backend & APIs</h3>
+                        <p>Node.js, Express, APIs REST/GraphQL, autenticação JWT e bancos de dados relacionais e NoSQL.</p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Express</span>
+                            <span class="skill-tag">GraphQL</span>
+                        </div>
                     </div>
                     
-                    <div class="skill-card">
-                        <div class="skill-icon"><i class="fas fa-mobile-alt"></i></div>
-                        <h3>Responsive Design</h3>
-                        <p>Desenvolvimento mobile-first com CSS moderno (Flexbox, Grid) e frameworks como Tailwind.</p>
+                    <div class="skill-card glass-card">
+                        <div class="skill-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>UI/UX & Design</h3>
+                        <p>Design systems, Figma, Tailwind CSS, Styled Components e desenvolvimento mobile-first.</p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Figma</span>
+                            <span class="skill-tag">Tailwind</span>
+                            <span class="skill-tag">Responsivo</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-card glass-card">
+                        <div class="skill-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3>Bancos de Dados</h3>
+                        <p>PostgreSQL, MongoDB, Firebase, modelagem de dados e otimização de queries complexas.</p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">PostgreSQL</span>
+                            <span class="skill-tag">MongoDB</span>
+                            <span class="skill-tag">Firebase</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-card glass-card">
+                        <div class="skill-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3>DevOps & Cloud</h3>
+                        <p>Docker, AWS, Vercel, CI/CD pipelines e configuração de ambientes de desenvolvimento.</p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">AWS</span>
+                            <span class="skill-tag">CI/CD</span>
+                        </div>
                     </div>
                 </div>
             </section>
+            
+            <section class="dev-projects" id="projects">
+                <h2 class="section-title">Projetos Recentes</h2>
+                <div class="projects-grid">
+                    <div class="project-card glass-card">
+                        <img src="https://source.unsplash.com/random/600x400/?tech,code" alt="Projeto 1" class="project-image">
+                        <div class="project-overlay">
+                            <h3 class="project-title">Plataforma de Cursos Online</h3>
+                            <p>Next.js, Node.js, PostgreSQL</p>
+                            <div class="project-links">
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fab fa-github"></i> Código
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card glass-card">
+                        <img src="https://source.unsplash.com/random/600x400/?app,dashboard" alt="Projeto 2" class="project-image">
+                        <div class="project-overlay">
+                            <h3 class="project-title">Sistema de Gerenciamento</h3>
+                            <p>React, Redux, Firebase</p>
+                            <div class="project-links">
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fab fa-github"></i> Código
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card glass-card">
+                        <img src="https://source.unsplash.com/random/600x400/?ecommerce,shop" alt="Projeto 3" class="project-image">
+                        <div class="project-overlay">
+                            <h3 class="project-title">Loja Virtual</h3>
+                            <p>Next.js, Stripe, MongoDB</p>
+                            <div class="project-links">
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fab fa-github"></i> Código
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card glass-card">
+                        <img src="https://source.unsplash.com/random/600x400/?mobile,app" alt="Projeto 4" class="project-image">
+                        <div class="project-overlay">
+                            <h3 class="project-title">Aplicativo Mobile</h3>
+                            <p>React Native, GraphQL, AWS</p>
+                            <div class="project-links">
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fab fa-github"></i> Código
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="dev-contact" id="contact">
+                <h2 class="section-title">Vamos Trabalhar Juntos</h2>
+                <p>Interessado em colaborar ou tem um projeto em mente? Mande uma mensagem!</p>
+                
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" id="name" class="form-input" placeholder=" " required>
+                        <label for="name" class="form-label">Seu Nome</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="email" id="email" class="form-input" placeholder=" " required>
+                        <label for="email" class="form-label">Seu Email</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="subject" class="form-input" placeholder=" ">
+                        <label for="subject" class="form-label">Assunto (Opcional)</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea id="message" class="form-input" placeholder=" " required></textarea>
+                        <label for="message" class="form-label">Sua Mensagem</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Enviar Mensagem
+                    </button>
+                </form>
+            </section>
         </main>
+        
+        <footer class="dev-footer">
+            <div class="dev-logo">Lukyam_Dev</div>
+            <div class="social-links">
+                <a href="#" class="social-link">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+            <p>&copy; 2023 Lukyam Morais Madeira. Todos os direitos reservados.</p>
+        </footer>
     </section>
 
     <!-- Landing Page - Writer -->
     <section class="writer-landing" id="writerLanding">
-        <div class="floating-elements">
-            <div class="floating-element" style="width: 250px; height: 250px; background: var(--writer-primary); top: 25%; left: 15%; animation-duration: 17s;"></div>
-            <div class="floating-element" style="width: 350px; height: 350px; background: var(--writer-accent); bottom: 15%; right: 20%; animation-duration: 20s; animation-direction: reverse;"></div>
-        </div>
-        
         <header class="writer-header">
-            <div class="writer-logo">Lukyam Escritor</div>
-            <button class="writer-back" id="writerBack">
-                <i class="fas fa-arrow-left"></i>
+            <div class="writer-logo">Lukyam_Escritor</div>
+            <nav class="writer-nav">
+                <a href="#works">Trabalhos</a>
+                <a href="#about">Sobre</a>
+                <a href="#contact">Contato</a>
+            </nav>
+            <button class="btn btn-writer" id="writerBack">
+                <i class="fas fa-arrow-left"></i> Voltar
             </button>
         </header>
         
         <main>
             <section class="writer-hero">
-                <div class="writer-hero-text">
+                <div class="writer-hero-content">
                     <h1>Narrativas que Inspiram & Emocionam</h1>
                     <p>Entre mundos onde a tecnologia encontra a humanidade, criando histórias que ressoam com o leitor moderno. Explorando temas contemporâneos através de uma lente única.</p>
-                    <button class="writer-cta">Explorar Obras</button>
+                    <div class="writer-hero-buttons">
+                        <button class="btn btn-writer">
+                            <i class="fas fa-book-open"></i> Ler Amostras
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-envelope"></i> Contato Editorial
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="writer-hero-image">
-                    <div class="book-pile">
-                        <div class="book book-1">LM</div>
-                        <div class="book book-2">LM</div>
-                        <div class="book book-3">LM</div>
+                    <div class="book-display glass-card">
+                        <div class="book-stack">
+                            <div class="book-item book-1">LM</div>
+                            <div class="book-item book-2">LM</div>
+                            <div class="book-item book-3">LM</div>
+                        </div>
                     </div>
                 </div>
             </section>
             
-            <section class="writer-works">
-                <h2>Trabalhos Recentes</h2>
+            <section class="writer-works" id="works">
+                <h2 class="section-title">Meus Trabalhos</h2>
+                
+                <div class="works-filter">
+                    <button class="filter-btn active">Todos</button>
+                    <button class="filter-btn">Romances</button>
+                    <button class="filter-btn">Contos</button>
+                    <button class="filter-btn">Poesia</button>
+                    <button class="filter-btn">Ensaios</button>
+                </div>
+                
                 <div class="works-grid">
-                    <div class="work-card">
-                        <div class="work-image">LM</div>
-                        <h3>Códigos e Versos</h3>
-                        <p>Uma coletânea de contos que exploram a intersecção entre tecnologia e humanidade, onde algoritmos encontram poesia.</p>
-                        <a href="#" class="work-link">Ler Amostra <i class="fas fa-arrow-right"></i></a>
+                    <div class="work-card glass-card">
+                        <img src="https://source.unsplash.com/random/600x400/?book,cover" alt="O Último Bug" class="work-image">
+                        <div class="work-content">
+                            <span class="work-category">Romance</span>
+                            <h3 class="work-title">O Último Bug</h3>
+                            <p class="work-excerpt">Em um futuro distópico onde a sociedade é controlada por um sistema algorítmico, um desenvolvedor renegado descobre uma falha crítica que pode libertar a humanidade - se ele puder consertá-la a tempo.</p>
+                            <a href="#" class="work-link">
+                                Ler Amostra <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
                     
-                    <div class="work-card">
-                        <div class="work-image">LM</div>
-                        <h3>O Último Bug</h3>
-                        <p>Romance distópico onde um desenvolvedor precisa consertar o sistema que controla a sociedade antes que colapse.</p>
-                        <a href="#" class="work-link">Ler Amostra <i class="fas fa-arrow-right"></i></a>
+                    <div class="work-card glass-card">
+                        <img src="https://source.unsplash.com/random/600x400/?poetry,book" alt="Algoritmos do Coração" class="work-image">
+                        <div class="work-content">
+                            <span class="work-category">Poesia</span>
+                            <h3 class="work-title">Algoritmos do Coração</h3>
+                            <p class="work-excerpt">Coletânea de poemas que exploram a interseção entre emoção humana e lógica digital, usando a linguagem da tecnologia para decifrar os códigos do amor, perda e existência.</p>
+                            <a href="#" class="work-link">
+                                Ler Amostra <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
                     
-                    <div class="work-card">
-                        <div class="work-image">LM</div>
-                        <h3>Algoritmos do Coração</h3>
-                        <p>Poesias modernas que decodificam emoções humanas através da linguagem da tecnologia.</p>
-                        <a href="#" class="work-link">Ler Amostra <i class="fas fa-arrow-right"></i></a>
+                    <div class="work-card glass-card">
+                        <img src="https://source.unsplash.com/random/600x400/?short,story" alt="Códigos e Versos" class="work-image">
+                        <div class="work-content">
+                            <span class="work-category">Contos</span>
+                            <h3 class="work-title">Códigos e Versos</h3>
+                            <p class="work-excerpt">Doze histórias curtas que navegam entre o técnico e o poético, onde desenvolvedores encontram musas, algoritmos revelam verdades e bugs se tornam metáforas para a condição humana.</p>
+                            <a href="#" class="work-link">
+                                Ler Amostra <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="work-card glass-card">
+                        <img src="https://source.unsplash.com/random/600x400/?essay,writing" alt="A Arte do Código" class="work-image">
+                        <div class="work-content">
+                            <span class="work-category">Ensaios</span>
+                            <h3 class="work-title">A Arte do Código</h3>
+                            <p class="work-excerpt">Reflexões sobre a criatividade na programação, explorando paralelos entre desenvolvimento de software e processos artísticos, e como a escrita criativa pode informar a escrita de código.</p>
+                            <a href="#" class="work-link">
+                                Ler Amostra <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="work-card glass-card">
+                        <img src="https://source.unsplash.com/random/600x400/?fantasy,book" alt="A Biblioteca Infinita" class="work-image">
+                        <div class="work-content">
+                            <span class="work-category">Romance</span>
+                            <h3 class="work-title">A Biblioteca Infinita</h3>
+                            <p class="work-excerpt">Em uma realidade onde todos os livros já escritos e por escrever existem em uma biblioteca multidimensional, uma curadora descobre um livro que contém sua própria vida - incluindo páginas ainda não vividas.</p>
+                            <a href="#" class="work-link">
+                                Ler Amostra <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="work-card glass-card">
+                        <img src="https://source.unsplash.com/random/600x400/?typewriter,paper" alt="Fragmentos Digitais" class="work-image">
+                        <div class="work-content">
+                            <span class="work-category">Contos</span>
+                            <h3 class="work-title">Fragmentos Digitais</h3>
+                            <p class="work-excerpt">Microcontos inspirados em erros de sistema, mensagens de erro e pop-ups, transformando frustrações tecnológicas em pequenas epifanias existenciais.</p>
+                            <a href="#" class="work-link">
+                                Ler Amostra <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </section>
+            
+            <section class="writer-about" id="about">
+                <div class="about-content">
+                    <div class="about-image">
+                        <img src="https://source.unsplash.com/random/600x800/?writer,author" alt="Lukyam Escritor">
+                    </div>
+                    <div class="about-text">
+                        <h2 class="section-title">Sobre o Escritor</h2>
+                        <p>Lukyam Morais Madeira navega entre dois mundos aparentemente distantes: a precisão lógica do desenvolvimento de software e a fluidez criativa da escrita literária.</p>
+                        <p>Formado em Ciência da Computação com especialização em Inteligência Artificial, encontrou na literatura uma forma de explorar as implicações humanas da tecnologia que ajuda a criar.</p>
+                        <p>Seus trabalhos frequentemente exploram temas como:</p>
+                        <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                            <li>A humanização da tecnologia</li>
+                            <li>Os algoritmos das relações humanas</li>
+                            <li>Distopias tecnologicamente plausíveis</li>
+                            <li>A poesia nos códigos e os códigos na poesia</li>
+                        </ul>
+                        <p>Quando não está programando ou escrevendo, Lukyam ministra oficinas que unem escrita criativa e pensamento computacional, mostrando como essas duas disciplinas podem se fertilizar mutuamente.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="writer-contact" id="contact">
+                <h2 class="section-title">Contato Editorial</h2>
+                <p>Interessado em publicações, colaborações ou eventos literários? Entre em contato.</p>
+                
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" id="w-name" class="form-input" placeholder=" " required>
+                        <label for="w-name" class="form-label">Seu Nome</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="email" id="w-email" class="form-input" placeholder=" " required>
+                        <label for="w-email" class="form-label">Seu Email</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="w-subject" class="form-input" placeholder=" ">
+                        <label for="w-subject" class="form-label">Assunto (Opcional)</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea id="w-message" class="form-input" placeholder=" " required></textarea>
+                        <label for="w-message" class="form-label">Sua Mensagem</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-writer">
+                        <i class="fas fa-paper-plane"></i> Enviar Mensagem
+                    </button>
+                </form>
+            </section>
         </main>
+        
+        <footer class="writer-footer">
+            <div class="writer-logo">Lukyam_Escritor</div>
+            <div class="social-links">
+                <a href="#" class="social-link">
+                    <i class="fas fa-book-open"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fab fa-medium"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+            <p>&copy; 2023 Lukyam Morais Madeira. Todos os direitos reservados.</p>
+        </footer>
     </section>
 
     <script>
@@ -799,38 +1510,50 @@
         const writerBack = document.getElementById('writerBack');
         const codeContent = document.getElementById('codeContent');
 
-        // Código para exibir na janela de código
+        // Código para exibir na janela de terminal
         const sampleCode = `
-<span class="code-keyword">const</span> <span class="code-function">createProject</span> = (<span class="code-keyword">{</span>idea, creativity, tech<span class="code-keyword">}</span>) => {
-  <span class="code-keyword">try</span> {
-    <span class="code-keyword">const</span> solution = <span class="code-function">transform</span>(idea, {
-      framework: <span class="code-string">"React"</span>,
-      stateManagement: <span class="code-string">"Context API"</span>,
-      styling: <span class="code-string">"Tailwind CSS"</span>,
-      backend: <span class="code-string">"Node.js"</span>
-    });
-    
-    <span class="code-keyword">return</span> <span class="code-function">polish</span>(solution, {
-      performance: <span class="code-keyword">true</span>,
-      accessibility: <span class="code-keyword">true</span>,
-      responsive: <span class="code-keyword">true</span>
-    });
-  } <span class="code-keyword">catch</span> (error) {
-    <span class="code-function">debug</span>(error);
-    <span class="code-function">iterate</span>();
-  }
-};
+<span class="code-comment">// Bem-vindo ao meu universo de código</span>
+<span class="code-keyword">const</span> <span class="code-function">lukyamDev</span> = <span class="code-keyword">{</span>
+  name: <span class="code-string">"Lukyam Morais Madeira"</span>,
+  role: <span class="code-string">"Full Stack Developer"</span>,
+  skills: <span class="code-keyword">[</span>
+    <span class="code-string">"JavaScript"</span>, 
+    <span class="code-string">"React"</span>, 
+    <span class="code-string">"Node.js"</span>,
+    <span class="code-string">"TypeScript"</span>,
+    <span class="code-string">"GraphQL"</span>
+  <span class="code-keyword">]</span>,
+  philosophy: <span class="code-string">"Clean code is art"</span>
+<span class="code-keyword">}</span>;
 
-<span class="code-keyword">const</span> myWork = <span class="code-function">createProject</span>({
-  idea: <span class="code-string">"Landing page incrível"</span>,
+<span class="code-comment">// Projetos criativos com propósito</span>
+<span class="code-keyword">const</span> <span class="code-function">buildProject</span> = <span class="code-keyword">(</span>idea<span class="code-keyword">)</span> <span class="code-keyword">=></span> <span class="code-keyword">{</span>
+  <span class="code-keyword">const</span> <span class="code-keyword">{</span> creativity, tech, impact <span class="code-keyword">}</span> = idea;
+  
+  <span class="code-keyword">return</span> <span class="code-keyword">new</span> <span class="code-function">Promise</span><span class="code-keyword">((</span>resolve<span class="code-keyword">)</span> <span class="code-keyword">=></span> <span class="code-keyword">{</span>
+    <span class="code-function">setTimeout</span><span class="code-keyword">(()</span> <span class="code-keyword">=></span> <span class="code-keyword">{</span>
+      <span class="code-keyword">const</span> solution = <span class="code-keyword">{</span>
+        ...lukyamDev,
+        implementation: <span class="code-string">"elegant"</span>,
+        performance: <span class="code-string">"optimal"</span>,
+        userExperience: <span class="code-string">"delightful"</span>
+      <span class="code-keyword">}</span>;
+      <span class="code-function">resolve</span><span class="code-keyword">(</span>solution<span class="code-keyword">)</span>;
+    <span class="code-keyword">}</span>, 1000<span class="code-keyword">)</span>;
+  <span class="code-keyword">}</span>);
+<span class="code-keyword">}</span>;
+
+<span class="code-comment">// Vamos criar algo incrível juntos?</span>
+<span class="code-function">buildProject</span><span class="code-keyword">({</span>
   creativity: <span class="code-keyword">true</span>,
-  tech: <span class="code-keyword">true</span>
-});`;
+  tech: <span class="code-keyword">true</span>,
+  impact: <span class="code-keyword">true</span>
+<span class="code-keyword">}</span>).<span class="code-function">then</span><span class="code-keyword">(</span>console.log<span class="code-keyword">)</span>;`;
 
-        // Inserir código na janela
+        // Inserir código no terminal
         codeContent.innerHTML = sampleCode;
 
-        // Animação de digitação para o código (opcional)
+        // Animação de digitação para o código
         function typeCode() {
             codeContent.innerHTML = '';
             let i = 0;
@@ -845,38 +1568,13 @@
             }, 10);
         }
 
-        // Event Listeners
-        devBtn.addEventListener('click', () => {
-            gateway.style.opacity = '0';
-            setTimeout(() => {
-                devLanding.classList.add('active');
-                typeCode();
-            }, 500);
-        });
-
-        writerBtn.addEventListener('click', () => {
-            gateway.style.opacity = '0';
-            setTimeout(() => {
-                writerLanding.classList.add('active');
-                animateBooks();
-            }, 500);
-        });
-
-        devBack.addEventListener('click', () => {
-            devLanding.classList.remove('active');
-            gateway.style.opacity = '1';
-        });
-
-        writerBack.addEventListener('click', () => {
-            writerLanding.classList.remove('active');
-            gateway.style.opacity = '1';
-        });
-
-        // Animação para os livros
+        // Animar pilha de livros
         function animateBooks() {
-            const books = document.querySelectorAll('.book');
+            const books = document.querySelectorAll('.book-item');
             books.forEach((book, index) => {
+                // Reset para posição inicial
                 book.style.transform = 'rotate(0deg) translateY(0)';
+                
                 setTimeout(() => {
                     if (index === 0) {
                         book.style.transform = 'rotate(-5deg)';
@@ -889,13 +1587,125 @@
             });
         }
 
-        // Efeito de máquina de escrever para os títulos (opcional)
+        // Filtros de obras
+        function setupWorkFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const workCards = document.querySelectorAll('.work-card');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Ativar botão clicado
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    const filter = btn.textContent;
+                    
+                    // Filtrar trabalhos
+                    workCards.forEach(card => {
+                        if (filter === 'Todos' || card.querySelector('.work-category').textContent === filter) {
+                            card.style.display = 'block';
+                            card.style.animation = 'fadeIn 0.5s ease-out';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+
+        // Efeito de digitação para títulos
         function typeWriter(element, text, i = 0) {
             if (i < text.length) {
                 element.innerHTML += text.charAt(i);
                 setTimeout(() => typeWriter(element, text, i + 1), 50);
             }
         }
+
+        // Event Listeners
+        devBtn.addEventListener('click', () => {
+            gateway.style.opacity = '0';
+            gateway.style.pointerEvents = 'none';
+            
+            setTimeout(() => {
+                devLanding.classList.add('active');
+                typeCode();
+                
+                // Animar elementos ao entrar
+                const elements = devLanding.querySelectorAll('.dev-hero-content, .code-terminal, .skill-card, .project-card');
+                elements.forEach((el, i) => {
+                    setTimeout(() => {
+                        el.style.animation = 'fadeIn 0.8s ease-out forwards';
+                    }, i * 100);
+                });
+            }, 500);
+        });
+
+        writerBtn.addEventListener('click', () => {
+            gateway.style.opacity = '0';
+            gateway.style.pointerEvents = 'none';
+            
+            setTimeout(() => {
+                writerLanding.classList.add('active');
+                animateBooks();
+                setupWorkFilters();
+                
+                // Animar elementos ao entrar
+                const elements = writerLanding.querySelectorAll('.writer-hero-content, .book-display, .work-card, .about-text');
+                elements.forEach((el, i) => {
+                    setTimeout(() => {
+                        el.style.animation = 'fadeIn 0.8s ease-out forwards';
+                    }, i * 100);
+                });
+            }, 500);
+        });
+
+        devBack.addEventListener('click', () => {
+            devLanding.classList.remove('active');
+            gateway.style.opacity = '1';
+            gateway.style.pointerEvents = 'auto';
+        });
+
+        writerBack.addEventListener('click', () => {
+            writerLanding.classList.remove('active');
+            gateway.style.opacity = '1';
+            gateway.style.pointerEvents = 'auto';
+        });
+
+        // Efeitos de hover para os cards de projeto
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const x = e.clientX - card.getBoundingClientRect().left;
+                const y = e.clientY - card.getBoundingClientRect().top;
+                
+                const centerX = card.offsetWidth / 2;
+                const centerY = card.offsetHeight / 2;
+                
+                const angleX = (y - centerY) / 20;
+                const angleY = (centerX - x) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+            });
+        });
+
+        // Inicializações
+        document.addEventListener('DOMContentLoaded', () => {
+            // Adiciona efeito de flutuação para elementos
+            const floatingElements = document.querySelectorAll('.floating-element');
+            floatingElements.forEach(el => {
+                const duration = Math.random() * 10 + 10;
+                el.style.animation = `float ${duration}s infinite ease-in-out`;
+            });
+            
+            // Ativa máquina de escrever para o título principal
+            const gatewayTitle = document.querySelector('.gateway h1');
+            const titleText = gatewayTitle.textContent;
+            gatewayTitle.textContent = '';
+            typeWriter(gatewayTitle, titleText);
+        });
     </script>
 </body>
 </html>
